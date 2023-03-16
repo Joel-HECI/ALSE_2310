@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <iomanip>
+#include <algorithm>
 
 /*
  Direccion del archivo de in/out en parametros de main [√]
@@ -38,13 +39,8 @@ int num_lineas(const string path2file)
 string quitar_espacios(string &str)
 {
 
-  for (int i = 0; i < str.length(); i++)
-  {
-    if (str[i] == ' ')
-    {
-      str.erase(i, 1);
-    }
-  }
+  str.erase(remove(str.begin(), str.end(), ' '), str.end());
+
   return str;
 }
 

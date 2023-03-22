@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cmath>
 #include "punto2d.h"
 #include <fstream>
 #include <string>
@@ -12,14 +11,6 @@ using namespace std;
 /*  La forma de llamar al programa será:
     eje10 ../datos.txt
 */
-
-string quitar_espacios(string &str)
-{
-
-  str.erase(remove(str.begin(), str.end(), ' '), str.end());
-
-  return str;
-}
 
 double promedio(vector<point> &vec, bool x = true)
 {
@@ -54,15 +45,10 @@ int main(int argc, char **argv)
     return 1;
   } */
 
-  size_t pos = 0;
-  string a, b;
-  double x, y;
   bool again;
   point aux;
 
-  ifstream input("../datos.txt");
-  if (input.good())
-    cout << "Leyendo datos del archivo" << endl;
+  ifstream input(argv[1]);
 
   string numero;
 
@@ -73,9 +59,6 @@ int main(int argc, char **argv)
   while (getline(input, numero))
   {
     point p;
-
-    // quitar espacios en blanco para evitar errores en la lectura de los números complejos
-    // quitar_espacios(numero);
 
     // asignar los valores de los Re al vector de números complejos usando procesamiento de strings
     p.setX(atof(numero.substr(0, numero.find_last_of(" ")).c_str()));
@@ -89,27 +72,27 @@ int main(int argc, char **argv)
 
   input.close();
 
+  // Encontrar el punto medio de todos los puntos
+
   point mid(promedio(vec, true), promedio(vec, false));
-  cout << "El punto medio es: " << mid << endl;
 
   point maxp;
-  double maxlength;
+  double radius;
+
+  // Encontrar el punto más alejado del punto medio
 
   for (size_t i = 0; i < vec.size(); i++)
   {
     double dist = mid.distancia(vec[i]);
 
-    if (dist > maxlength)
+    if (dist > radius)
     {
       maxp = vec[i];
-      maxlength = dist;
+      radius = dist;
     }
-    if (argv[1])
-      cout << vec[i] << dist << endl;
-    // cout << vec[i] << dist << endl;
   }
-  cout << "El circulo que envuelve a todos los puntos tiene centro en " << mid << " y radio " << maxlength << endl;
 
+  // Organizar puntos según su angulo respecto al origen
   do
   {
     again = false;
@@ -139,9 +122,12 @@ int main(int argc, char **argv)
     }
   } while (again == true);
 
-  for (size_t i = 1; i < vec.size() - 1; i++)
+  // Algoritmo de Graham, se itera entre tripletas de puntos para descartar los
+  // que genere un angulo a favor de las manecillas del reloj, depurando el vector
+  vector<point> envolvente = vec;
+  for (size_t i = 1; i < envolvente.size() - 1; i++)
   {
-    int angl = angulo3puntos(vec[i - 1], vec[i], vec[i + 1]);
+    int angl = angulo3puntos(envolvente[i - 1], envolvente[i], envolvente[i + 1]);
 
     point aux;
 
@@ -151,36 +137,45 @@ int main(int argc, char **argv)
     }
     else
     {
-      vec.erase(vec.begin() + i);
+      // vec.erase(vec.begin() + i);
       i++;
     }
   }
-  cout << "Puntos de Envolvente Convexa:" << endl;
-  for (point i : vec)
-  {
-    cout << i << endl;
-  }
+
+  // Escritura a archivo de salida
 
   ofstream output("../output.txt"); // Se crea el objeto para abrir el archivo de escritura
-
-  output << "\n - * - " << endl;
+  // Enunciar el circulo con centro med y radio maxlength
+  output << "Ejercicio 12 " << endl;
+  output << " - * - " << endl;
+  output << "Puntos leidos del archivo: " << endl;
   for (size_t i = 0; i < vec.size(); i++)
   {
-    if (maxp == vec[i])
+    output << setfill(' ') << left << setw(1) << "•";
+    output << vec[i] << endl;
+  }
+  output << " - * - " << endl;
+  output << "El punto medio de los datos es: " << mid << endl;
+  output << " - * - " << endl;
+  output << "El circulo que envuelve a todos los puntos tiene centro en " << mid << " y radio " << radius << endl;
+  output << " - * - " << endl;
+  output << "Puntos pertenecientes a la envolvente:" << endl;
+  for (size_t i = 0; i < vec.size(); i++)
+  {
+
+    // El punto mas alejado del centro se marca con un asterisco
+    if (maxp == envolvente[i])
       output << setfill(' ') << left << setw(1) << "*";
     else
     {
       output << setfill(' ') << left << setw(1) << "•";
     };
 
-    output << vec[i];
-    output << setfill(' ') << left << setw(1) << " | ";
-    output << setfill(' ') << left << setw(6) << vec[i].angulo() << endl;
-    //    cout << vec[i] << " < " <<  vec[i] ) << endl;
+    output << envolvente[i] << endl;
   }
 
   output.close(); // Se cierra el archivo de escritura.
-  // system("cat ../output.txt");
+  system("cat ../output.txt");
 
   return 0;
 }

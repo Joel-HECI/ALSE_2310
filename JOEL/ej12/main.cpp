@@ -12,7 +12,7 @@ using namespace std;
     eje10 ../datos.txt
 */
 
-double promedio(vector<point> &vec, bool x = true)
+double promedio(const vector<point> &vec, bool x = true)
 {
   double sum = 0;
 
@@ -137,7 +137,8 @@ int main(int argc, char **argv)
     }
     else
     {
-      // vec.erase(vec.begin() + i);
+
+      envolvente.erase(envolvente.begin() + i);
       i++;
     }
   }
@@ -160,7 +161,7 @@ int main(int argc, char **argv)
   output << "El circulo que envuelve a todos los puntos tiene centro en " << mid << " y radio " << radius << endl;
   output << " - * - " << endl;
   output << "Puntos pertenecientes a la envolvente:" << endl;
-  for (size_t i = 0; i < vec.size(); i++)
+  for (size_t i = 0; i < envolvente.size(); i++)
   {
 
     // El punto mas alejado del centro se marca con un asterisco

@@ -12,9 +12,9 @@ public:
   point(const point &a);
   point &operator=(const point &a);
 
-  double getX();
+  double getX() const;
   bool setX(double X);
-  double getY();
+  double getY() const;
   bool setY(double Y);
   double distancia(const point &b);
   double angulo();

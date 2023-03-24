@@ -19,9 +19,10 @@ bool point::setY(double Y)
 
 double point::distancia(const point &b)
 {
-  double x = b.x - x;
-  double y = b.y - y;
-  return sqrt(x * x + y * y);
+  double u = b.x - x;
+  double v = b.y - y;
+
+  return sqrt(u * u + v * v);
 }
 
 double point::angulo()
@@ -36,15 +37,7 @@ double point::magnitud()
 
 ostream &operator<<(ostream &out, point &a)
 {
-  out << setfill(' ') << left << setw(1) << "(";
-
-  out << setfill(' ') << right << setw(5) << a.getX();
-
-  out << setfill(' ') << left << setw(2) << ",";
-
-  out << setfill(' ') << right << setw(5) << a.getY();
-
-  out << setfill(' ') << left << setw(1) << ")";
+  out << setfill(' ') << left << setw(1) << "(" << a.x << "," << a.y << ")";
 
   return out;
 }
@@ -65,12 +58,12 @@ point::point(double X, double Y)
   y = Y;
 }
 
-double point::getX()
+double point::getX() const
 {
   return x;
 }
 
-double point::getY()
+double point::getY() const
 {
   return y;
 }

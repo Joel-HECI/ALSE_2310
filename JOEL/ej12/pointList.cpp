@@ -20,7 +20,8 @@ point pointList::centroide()
 
     return point(sumx / vec.size(), sumy / vec.size());
 }
-vector<point> pointList::bubbleOrdering()
+
+void pointList::bubbleOrdering()
 {
     bool again = false;
     point aux;
@@ -51,9 +52,10 @@ vector<point> pointList::bubbleOrdering()
                 }
             }
         }
-    } while (again == true);
+    } while (again);
 }
-vector<point> pointList::grahamHull()
+
+void pointList::grahamHull()
 {
     for (size_t i = 1; i < vec.size() - 1; i++)
     {
@@ -70,6 +72,20 @@ vector<point> pointList::grahamHull()
             i++;
         }
     }
+}
+
+point pointList::maxEfrompoint(const point &a)
+{
+
+    point max = vec[0];
+    for (point i : vec)
+    {
+        if (i.distancia(a) > max.distancia(a))
+        {
+            max = i;
+        }
+    }
+    return max;
 }
 pointList::pointList()
 {
@@ -107,7 +123,7 @@ ostream &operator<<(ostream &out, pointList &a)
 {
     for (point i : a.vec)
     {
-        out << i << " ";
+        out << i << endl;
     }
     return out;
 }

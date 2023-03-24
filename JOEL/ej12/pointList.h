@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-// #include "punto2d.h"
 
 using namespace std;
 
@@ -14,8 +13,9 @@ public:
     pointList &operator=(const pointList &p);
 
     point centroide();
-    vector<point> bubbleOrdering();
-    vector<point> grahamHull();
+    void bubbleOrdering();
+    void grahamHull();
+    point maxEfrompoint(const point &a);
 
     void addPoint(point a);
     point getPoint(int i);

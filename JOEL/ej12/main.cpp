@@ -11,13 +11,13 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-  //  cout << argc << endl;
-  /* if( argc != 2 ){
+  if (argc != 2)
+  {
     cout << "Debe pasar la url del archivo que contiene los números complejos.";
     return 1;
-  } */
+  }
 
-  ifstream input("../datos.txt");
+  ifstream input(argv[1]);
   string numero;
 
   pointList vec;
@@ -45,7 +45,7 @@ int main(int argc, char **argv)
   double radius = mid.distancia(maxp);
 
   // Organizar puntos según su angulo respecto al origen
-  vec.bubbleOrdering();
+  vec.bubbleSort();
 
   // Algoritmo de Graham, se itera entre tripletas de puntos para descartar los
   // que genere un angulo a favor de las manecillas del reloj, depurando el vector

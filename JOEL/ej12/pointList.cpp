@@ -2,9 +2,39 @@
 #include <cmath>
 #include "punto2d.h"
 #include "pointList.h"
+#include "line.h"
 #include <vector>
 
 using namespace std;
+
+pointList ce_routine(pointList &a)
+{
+
+    a.bubbleSort();
+    pointList vec2;
+
+    for (size_t i = 1; i < a.vec.size(); i++)
+    {
+        line e(a.vec[0], a.vec[i]);
+        e.escalado(0.5);
+        vec2.addPoint(e.getB());
+    }
+    return vec2;
+}
+
+pointList pointList::centroide_e()
+{
+    pointList vec2 = vec;
+
+    for (size_t i = 0; i < vec.size() - 2; i++)
+    {
+        pointList vec3 = ce_routine(vec2);
+        vec2.vec.clear();
+        vec2 = vec3;
+    }
+
+    return vec2;
+}
 
 point pointList::centroide()
 {
@@ -21,7 +51,11 @@ point pointList::centroide()
     return point(sumx / vec.size(), sumy / vec.size());
 }
 
-void pointList::bubbleOrdering()
+point pointList::escalado(double a)
+{
+}
+
+void pointList::bubbleSort()
 {
     bool again = false;
     point aux;
@@ -104,6 +138,11 @@ vector<point> pointList::getVec()
 {
     return vec;
 }
+pointList::~pointList()
+{
+    vec.clear();
+}
+
 pointList::pointList(const pointList &a)
 {
     for (point i : a.vec)
@@ -111,9 +150,26 @@ pointList::pointList(const pointList &a)
         vec.push_back(i);
     }
 }
+pointList::pointList(const vector<point> &a)
+{
+    for (point i : a)
+    {
+        vec.push_back(i);
+    }
+}
 pointList &pointList::operator=(const pointList &a)
 {
+
     for (point i : a.vec)
+    {
+        vec.push_back(i);
+    }
+}
+
+pointList &pointList::operator=(const vector<point> &a)
+{
+    delete this;
+    for (point i : a)
     {
         vec.push_back(i);
     }

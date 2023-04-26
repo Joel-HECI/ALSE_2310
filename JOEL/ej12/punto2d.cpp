@@ -58,12 +58,12 @@ point::point(double X, double Y)
   y = Y;
 }
 
-double point::getX() const
+double point::getX()
 {
   return x;
 }
 
-double point::getY() const
+double point::getY()
 {
   return y;
 }

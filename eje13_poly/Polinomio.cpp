@@ -226,6 +226,33 @@ void Polinomio::simplificar(){
 }
 
 bool Polinomio::ordenar(){
+    Termino *t1, *t2, *temp, *aux;
+    int cont = 1, p;
+    t1 = _polCabeza;
+    while (cont != 0){
+        cont = 0;
+        while (t1 != nullptr ){
+            t2 = t1 -> getsiguiente();
+            if (t2 != nullptr && t1->getP() < t2->getP()){
+                temp = t2->getSiguiente();
+                t2->setSiguiente(t1);
+                t1->setSiguiente( temp );
+                if(t1 == _polCabeza){
+                    _polCabeza = t2;
+                }else{
+                    aux = _polCabeza;
+                    while (aux->getSiguiente() != t1 )
+                        aux = aux->getSiguiente();
+                    
+                    aux->setSiguiente(t2);
+                }
+                t2 = temp;
+                cont++;
+            }
+            t1 = t2;
+        }
+    }
+    
     return true;
 }
 

@@ -93,3 +93,5 @@ sqlite_DB/build/CMakeFiles/sqlitedb_testing_update.dir/link.txt
 sqlite_DB/build/CMakeFiles/sqlitedb_testing_update.dir/progress.make
 sqlite_DB/build/CMakeFiles/sqlitedb_testing_update.dir/update_db.cpp.o
 sqlite_DB/build/CMakeFiles/sqlitedb_testing_update.dir/update_db.cpp.o.d
+.DS_Store*
+compiler_depend*
